@@ -3,6 +3,13 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(bodyParser.json());
 
+app.use(express.static(__dirname + "/assets"));
+
+app.use(function (req, res, next) {
+  console.log(req.method + " " + req.path + " " + req.ip);
+  next();
+});
+
 const mockUserData = [{ name: "Deepak" }, { name: "James" }];
 
 app.get("/users", function (req, res) {
@@ -20,6 +27,10 @@ app.get("/users/:id", function (req, res) {
     message: "successfully got users. Nice!",
     users: req.params.id,
   });
+});
+
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + "/views/index.html");
 });
 
 app.post("/login", function (req, res) {
