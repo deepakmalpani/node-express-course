@@ -10,6 +10,19 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.get(
+  "/now",
+  function (req, res, next) {
+    req.time = new Date().toString();
+    next();
+  },
+  function (req, res) {
+    res.json({
+      time: req.time,
+    });
+  }
+);
+
 const mockUserData = [{ name: "Deepak" }, { name: "James" }];
 
 app.get("/users", function (req, res) {
